@@ -4,11 +4,14 @@ module.exports = {
 
   development: {
     client: 'pg',
-    connection: 'postgres://localhost/color_be'
+    connection: 'postgres://localhost/color_be',
+    useNullAsDefault: true
   },
 
   test: {
     client: 'pg',
-    connection: 'postgres://localhost/color_be_test'
-  }
+    connection: 'postgres://localhost/color_be_test',
+    useNullAsDefault: true
+  },
+
 };
