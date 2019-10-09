@@ -20,11 +20,10 @@ describe('Server', () => {
     it('should return a 200 status code and all the projects', async () => {
       const expectedProjects = await database('projects').select();
       const res = await request(app).get('/projects');
-      const response = JSON.stringify(res.body);
-      const projects = JSON.stringify(expectedProjects);
+      const projects = res.body;
 
       expect(res.status).toBe(200);
-      expect(response).toEqual(projects);
+      expect(projects[0].name).toEqual(expectedProjects[0].name);
     });
   });
 });
