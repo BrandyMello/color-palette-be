@@ -1,23 +1,23 @@
-const data = require('../../color_data');
+const data = require('../../../color_data');
 
 const createProject = (knex, project) => {
   return knex('projects').insert({
     name: project.name
   }, 'id')
     .then(projectId => {
-      let promisesPalette = [];
+      let promisesPalette =[];
 
       project.palettes.forEach(palette => {
         promisesPalette.push(
           createPalette(knex, {
-            name: palette.name,
-            projectName: palette.projectName,
-            colorOne: palette.colorOne,
-            colorTwo: palette.colorTwo,
-            colorThree: palette.colorThree,
-            colorFour: palette.colorFour,
-            colorFive: palette.colorFive,
-            projectId: projectId[0]
+          name: palette.name,
+          projectName: palette.projectName,
+          colorOne: palette.colorOne,
+          colorTwo: palette.colorTwo,
+          colorThree: palette.colorThree,
+          colorFour: palette.colorFour,
+          colorFive: palette.colorFive,
+          projectId: projectId[0]
           })
         )
       })
