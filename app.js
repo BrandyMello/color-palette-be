@@ -29,12 +29,25 @@ app.get('/api/v1/projects/:id', (request, response) => {
         });
       }
     })
-})
+});
 
 app.get('/api/v1/palettes', (request, response) => {
   database('palettes').select()
     .then(palettes => response.status(200).json(palettes))
     .catch(error => console.log(error));
 });
+
+app.get('/api/v1/palettes/:id', (request, response) => {
+  database('palettes').where('id', request.params.id).select()
+    .then(project => {
+      if (project.length) {
+        return response.status(200).json(project);
+      } else {
+        return response.status(404).json({
+          error: 'No palette found.'
+        });
+      }
+    })
+})
 
 module.exports = app;

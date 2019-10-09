@@ -49,4 +49,17 @@ describe('Server', () => {
       expect(palettes[0].name).toEqual(expectedPalettes[0].name);
     });
   });
+
+  describe('GET /api/v1/palettes/:id', () => {
+    it('should return a 200 status and a single palette if the palette exists', async () => {
+      const expectedPalette = await database('palettes').first();
+      const id = expectedPalette.id;
+      const res = await request(app).get(`/api/v1/palettes/${id}`);
+      const result = res.body[0]
+
+      expect(res.status).toBe(200);
+      expect(result[0]).toEqual(expectedPalette[0]);
+    });
+  });
 });
+
