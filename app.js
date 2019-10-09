@@ -12,6 +12,10 @@ app.get('/', (request, response) => {
   response.send('Color Palette');
 });
 
-
+app.get('/projects', (request, response) => {
+  database('projects').select()
+    .then(projects => response.status(200).json(projects))
+  // .catch(error => console.log(error))
+});
 
 module.exports = app;
