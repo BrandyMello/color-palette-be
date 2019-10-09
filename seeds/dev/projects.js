@@ -1,4 +1,4 @@
-const data = require('../color_data');
+const data = require('../../color_data');
 
 const createProject = (knex, project) => {
   return knex('projects').insert({
