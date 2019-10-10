@@ -61,5 +61,27 @@ describe('Server', () => {
       expect(result[0]).toEqual(expectedPalette[0]);
     });
   });
-});
 
+  describe('Post /api/v1/projects', () => {
+    it('should return a 201 status code and add a new project to the database', async () => {
+      const mockProject = {name: 'Summer Time'};
+      const response = await request(app).post('/api/v1/projects').send(mockProject);
+      const projects = await database('projects').where({ id: response.body.id });
+      const newProject = projects[0];
+
+      expect(response.status).toBe(201);
+      expect(newProject.name).toEqual(mockProject.name);
+    });
+
+    it('should return a 422 status code with an error message "You are missing "parameter here"." if it does not have all of the required parameters', async () => {
+      const mockProject = {color: 'green'};
+      const response = await request(app).post('/api/v1/projects').send(mockProject);
+
+      expect(response.status).toBe(422);
+      expect(response.body.error).toEqual(`Expected format: {
+          name: <String>
+        }. You are missing a "name".`)
+        });
+      });
+    });
+    

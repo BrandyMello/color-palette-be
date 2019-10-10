@@ -48,6 +48,28 @@ app.get('/api/v1/palettes/:id', (request, response) => {
         });
       }
     })
-})
+});
+
+app.post('/api/v1/projects', (request, response) => {
+  const project = request.body;
+
+  for (let requiredParameter of ['name']) {
+    if(!project[requiredParameter]) {
+      return response
+        .status(422)
+        .send({
+          error: `Expected format: {
+          name: <String>
+        }. You are missing a "${requiredParameter}".`})
+    }
+  }
+  database('projects').insert(project, 'id')
+    .then(project => {
+      return response.status(201).json({ id: project[0] })
+    })
+    .catch(error => {
+      return response.status(500).json({error})
+    });
+});
 
 module.exports = app;
