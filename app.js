@@ -70,6 +70,20 @@ app.post('/api/v1/projects', (request, response) => {
     .catch(error => {
       return response.status(500).json({error})
     });
+
+    app.delete('/api/v1/projects', (request, response) => {
+      database('projects').where('id', request.params.id).del()
+        .then(project => {
+          if(!project) {
+            response.status(404).send('Project not found');
+          } else {
+            response.status(204).json(`Project with id ${request.params.id} has been deleted from your projects`)
+          }
+        })
+        .catch(error => {
+          response.status(500).json({ error });
+        });
+    });
 });
 
 module.exports = app;
