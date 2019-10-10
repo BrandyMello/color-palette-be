@@ -48,6 +48,42 @@ app.get('/api/v1/palettes/:id', (request, response) => {
         });
       }
     })
-})
+});
+
+app.post('/api/v1/projects', (request, response) => {
+  const project = request.body;
+
+  for (let requiredParameter of ['name']) {
+    if(!project[requiredParameter]) {
+      return response
+        .status(422)
+        .send({
+          error: `Expected format: {
+          name: <String>
+        }. You are missing a "${requiredParameter}".`})
+    }
+  }
+  database('projects').insert(project, 'id')
+    .then(project => {
+      return response.status(201).json({ id: project[0] })
+    })
+    .catch(error => {
+      return response.status(500).json({error})
+    });
+
+    app.delete('/api/v1/projects', (request, response) => {
+      database('projects').where('id', request.params.id).del()
+        .then(project => {
+          if(!project) {
+            response.status(404).send('Project not found');
+          } else {
+            response.status(204).json(`Project with id ${request.params.id} has been deleted from your projects`)
+          }
+        })
+        .catch(error => {
+          response.status(500).json({ error });
+        });
+    });
+});
 
 module.exports = app;
