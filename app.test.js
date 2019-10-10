@@ -61,5 +61,66 @@ describe('Server', () => {
       expect(result[0]).toEqual(expectedPalette[0]);
     });
   });
+
+  describe('POST /api/v1/palettes', () => {
+    it('should return a 201 status code when a new palette is added', async () => {
+      const palette = await database('palettes').first().select();
+      const id = palette.id;
+
+      const mockData = {
+      name: 'Autumn',
+      projectName: 'Warm Colors',
+      colorOne: '#BC8F8F',
+      colorTwo: '#A52A2A',
+      colorThree: '#FF7D40',
+      colorFour: '#CD3700',
+      colorFive: '#993300'
+    }
+
+    const response = await request(app).post('api/v1/palettes').send(mockData);
+    const palettes = await database('palettes').where({id: response.body.id});
+    const createdPalette = palettes[0];
+
+    expect(response.status).toBe(201)
+    expect(createdPalette.name).toEqual(mockData.name)
+    })
+  })
+
+  describe('PATCH /api/v1/palettes/:id', () => {
+    it('should return a 201 status code and update the palette name', async() => {
+      const mockName = {
+        name: 'Fall'
+      }
+      const palette = database.select('palettes').first().select();
+      const id = palette.id;
+      const response = await request(app).patch('api/v1/palettes/${id}').send(mockName);
+      const updated =  await database('palettes').where({id: id});
+
+      expect(response.status).toBe(201);
+      expect(updated[0].name).toEqual(mockName.name)
+    })
+  })
+
+  it('should return a 422 error code if the update of the name was unsuccessful', async() => {
+    const mockName = {}
+    const palette = database('palettes').first().select();
+    const id = palette.id
+    const response = request(app).patch(`api/v1/palettes/${id}`).send(mockName);
+    expect(response.status).toBe(422)
+  })
+
+  describe('DELETE /palettes/:id', () => {
+    it('should return a 204 status code and remove palette from database', async () => {
+        const palette = await database('palettes').first().select();
+        const id = palette.id;
+        const response = await request(app).delete(`/api/v1/palettes/${id}`)
+        expect(response.status).toBe(204)
+    })
+
+    it('should return a 404 if a request id is bad', async () => {
+        const response = await request(app).delete('/api/v1/palettes/-1')
+        expect(response.status).toBe(404)
+    })
+})
 });
 
