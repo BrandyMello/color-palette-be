@@ -66,25 +66,25 @@ app.post('/api/v1/palettes', (request, response) => {
     if(!palette[requiredParameter]) {
       return response.status(422).send({error: 'Unexpected format'})
     }
-    database('palettes').insert(palette, 'id')
-    .then(palette => {
-      return response.status(201).json({id: palette[0]})
-    })
   }
+  database('palettes').insert(palette, 'id')
+  .then(palette => {
+    return response.status(201).json({id: palette[0]})
+})
 })
 
-app.patch("/api/v1/palettes/:id", (req, res) => {
-  if (!req.body.name) {
-    res.status(422).json("Please enter a name");
-  } else {
-    database("palettes")
-      .where("id", req.params.id)
-      .update(req.body)
-      .then(project => {
-        res.status(201).json({ id: project });
-      })
-  }
-});
+// app.patch("/api/v1/palettes/:id", (req, res) => {
+//   if (!req.body.name) {
+//     res.status(422).json("Please enter a name");
+//   } else {
+//     database("palettes")
+//       .where("id", req.params.id)
+//       .update(req.body)
+//       .then(project => {
+//         res.status(201).json({ id: project });
+//       })
+//   }
+// });
 
 app.delete("/api/v1/palettes/:id", (req, res) => {
   database("palettes")
@@ -98,6 +98,19 @@ app.delete("/api/v1/palettes/:id", (req, res) => {
           .json(`Palette with id ${req.params.id} has been deleted.`);
       }
     })
+});
+
+app.delete('/api/v1/projects/:id', async (request, response) => {
+  const project = await database('projects').where('id', request.params.id).select();
+  
+  if(project.length) {
+    await database('palettes').where('projectId', request.params.id).del()
+    await database('projects').where('id', request.params.id).del()
+    
+    response.status(200).json('This project has been deleted.')
+  } else {
+    return response.status(400).json({ error: 'Delete failed, could not find project with that id.' })
+  }
 });
 
 module.exports = app;
