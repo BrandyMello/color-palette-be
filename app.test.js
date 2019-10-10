@@ -144,20 +144,22 @@ describe("Server", () => {
       });
 
       describe('DELETE /api/v1/projects/:id', () => {
-        it('should return a 204 status code and remove the project with the given id from the projects database', async () => {
+
+        it('should return a 200 status code and remove the project with the given id from the projects database', async () => {
           const projectId = await database('projects').first('id').then(project => project.id); 
           console.log('projectid', projectId)
           const response = await request(app).delete(`/api/v1/projects/${projectId}`);
           // console.log('db', database('projects'))
 
-          expect(response.status).toBe(204);
+          expect(response.status).toBe(200);
           // expect(response.body.error).toEqual('Project not found')
         })
 
         it('should return a 404 if the project is not found', async () => {
          const response = await request(app).delete('/api/v1/projects/-1')
-         expect(response.status).toBe(404) 
+         
+         expect(response.status).toBe(400) 
         })
       });
-    });
+
     
