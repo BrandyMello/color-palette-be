@@ -69,7 +69,7 @@ app.post('/api/v1/projects', (request, response) => {
     })
     .catch(error => {
       return response.status(500).json({error})
-    });
+  });
 
     app.delete('/api/v1/projects', (request, response) => {
       database('projects').where('id', request.params.id).del()
@@ -84,6 +84,20 @@ app.post('/api/v1/projects', (request, response) => {
           response.status(500).json({ error });
         });
     });
+});
+
+app.patch('/api/v1/projects/:id', async (request, response) => {
+  const newProjectName = request.body;
+  const project = await database('projects').where('id', request.params.id).select();
+
+  if (project.length) {
+    await database('projects')
+      .where('id', request.params.id)
+      .update(newProjectName)
+    return response.status(202).json({ id: request.params.id })
+  } else {
+    return response.status(400).json({ error: `Could not find project with id of ${request.params.id}` })
+  }
 });
 
 app.post('/api/v1/palettes', (request, response) => {
