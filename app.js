@@ -109,18 +109,19 @@ app.post('/api/v1/palettes', (request, response) => {
 })
 })
 
-// app.patch("/api/v1/palettes/:id", (req, res) => {
-//   if (!req.body.name) {
-//     res.status(422).json("Please enter a name");
-//   } else {
-//     database("palettes")
-//       .where("id", req.params.id)
-//       .update(req.body)
-//       .then(project => {
-//         res.status(201).json({ id: project });
-//       })
-//   }
-// });
+app.patch('/api/v1/palettes/:id', async (request, response) => {
+  const newPaletteName = request.body;
+  const palette = await database('palettes').where('id', request.params.id).select();
+
+  if (palette.length) {
+    await database('palettes')
+      .where('id', request.params.id)
+      .update(newPaletteName)
+    return response.status(202).json({ id: request.params.id })
+  } else {
+    return response.status(400).json({ error: `Could not find palette with id of ${request.params.id}` })
+  }
+});
 
 app.delete("/api/v1/palettes/:id", (req, res) => {
   database("palettes")
