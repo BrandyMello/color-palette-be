@@ -149,10 +149,8 @@ describe("Server", () => {
           const projectId = await database('projects').first('id').then(project => project.id); 
           console.log('projectid', projectId)
           const response = await request(app).delete(`/api/v1/projects/${projectId}`);
-          // console.log('db', database('projects'))
 
           expect(response.status).toBe(200);
-          // expect(response.body.error).toEqual('Project not found')
         })
 
         it('should return a 404 if the project is not found', async () => {
@@ -162,20 +160,37 @@ describe("Server", () => {
         })
       });
 
-      describe('PATCH /api/v1/palettes/:id', () => {
-        it('should return a 204 status code and updated the palettes name', async () => {
+    describe('PATCH /api/v1/projects/:id', () => {
+      it('should return a 204 status code and updated the projects name', async () => {
+        const updatedName = {
+          name: 'Fall'
+        }
+
+        const selectedPalette = await database('projects').first();
+        const id = selectedPalette.id;
+
+        const response = await request(app).patch(`/api/v1/projects/${id}`).send(updatedName);
+        const mockPalette = await database('projects').where('id', id);
+
+        expect(response.status).toBe(202);
+        expect(mockPalette[0].name).toEqual(updatedName.name)
+      });
+    });
+
+      describe('PATCH /api/v1/projects/:id', () => {
+        it('should return a 204 status code and updated the projects name', async () => {
           const updatedName = {
             name: 'Fall'
           }
     
-          const selectedPalette = await database('palettes').first();
-          const id = selectedPalette.id;
+          const selectedProject = await database('projects').first();
+          const id = selectedProject.id;
     
-          const response = await request(app).patch(`/api/v1/palettes/${id}`).send(updatedName);
-          const mockPalette = await database('palettes').where('id', id);
+          const response = await request(app).patch(`/api/v1/projects/${id}`).send(updatedName);
+          const mockProject = await database('projects').where('id', id);
     
           expect(response.status).toBe(202);
-          expect(mockPalette[0].name).toEqual(updatedName.name)
+          expect(mockProject[0].name).toEqual(updatedName.name)
         });
       });
 
