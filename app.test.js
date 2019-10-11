@@ -162,4 +162,21 @@ describe("Server", () => {
         })
       });
 
+      describe('PATCH /api/v1/palettes/:id', () => {
+        it('should return a 204 status code and updated the palettes name', async () => {
+          const updatedName = {
+            name: 'Fall'
+          }
+    
+          const selectedPalette = await database('palettes').first();
+          const id = selectedPalette.id;
+    
+          const response = await request(app).patch(`/api/v1/palettes/${id}`).send(updatedName);
+          const mockPalette = await database('palettes').where('id', id);
+    
+          expect(response.status).toBe(202);
+          expect(mockPalette[0].name).toEqual(updatedName.name)
+        });
+      });
+
     
