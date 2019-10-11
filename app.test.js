@@ -144,6 +144,7 @@ describe("Server", () => {
       });
 
       describe('DELETE /api/v1/projects/:id', () => {
+
         it('should return a 200 status code and remove the project with the given id from the projects database', async () => {
           const projectId = await database('projects').first('id').then(project => project.id); 
           console.log('projectid', projectId)
@@ -156,6 +157,7 @@ describe("Server", () => {
 
         it('should return a 404 if the project is not found', async () => {
          const response = await request(app).delete('/api/v1/projects/-1')
+         
          expect(response.status).toBe(400) 
         })
       });
@@ -176,4 +178,5 @@ describe("Server", () => {
           expect(mockPalette[0].name).toEqual(updatedName.name)
         });
       });
+
     
