@@ -100,6 +100,22 @@ app.patch('/api/v1/projects/:id', async (request, response) => {
   }
 });
 
+app.get('/api/v1/search', (request, response) => {
+  const query = request.query.name;
+
+  database('projects').where('name', query).select()
+    .then(project => {
+      if(!project) {
+        return response.status(404).json('Project not found')
+      } else {
+        return response.status(200).json(project)
+      }
+    })
+    .catch(error => { 
+      response.status(500).json({error})
+  });
+});
+
 app.post('/api/v1/palettes', (request, response) => {
   const palette = request.body;
 

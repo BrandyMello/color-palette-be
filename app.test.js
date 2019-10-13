@@ -177,6 +177,17 @@ describe("Server", () => {
       });
     });
 
+    describe('GET /api/v1/search', () => {
+      it('should return a status code 200 and return the project name', async () => {
+        const targetName = await database('projects').first()
+        const name = targetName.name;
+        const response = await request(app).get(`/api/v1/search?name=${name}`);
+
+        expect(response.status).toBe(200);
+        expect(response.body[0].name).toEqual(name);
+      });
+    });
+
       describe('PATCH /api/v1/projects/:id', () => {
         it('should return a 204 status code and updated the projects name', async () => {
           const updatedName = {
