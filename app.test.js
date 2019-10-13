@@ -192,20 +192,20 @@ describe("Server", () => {
       );
     });
   });
-});
 
-describe("DELETE api/v1/palettes/:id", () => {
-  it("should return a 204 status code and remove palette from database", async () => {
-    const palette = await database("palettes")
-      .first()
-      .select();
-    const id = palette.id;
-    const response = await request(app).delete(`/api/v1/palettes/${id}`);
-    expect(response.status).toBe(204);
-  });
+  describe("DELETE api/v1/palettes/:id", () => {
+    it("should return a 204 status code and remove palette from database", async () => {
+      const palette = await database("palettes")
+        .first()
+        .select();
+      const id = palette.id;
+      const response = await request(app).delete(`/api/v1/palettes/${id}`);
+      expect(response.status).toBe(204);
+    });
 
-  it("should return a 404 if a request id is bad", async () => {
-    const response = await request(app).delete("/api/v1/palettes/-1");
-    expect(response.status).toBe(404);
+    it("should return a 404 if a request id is bad", async () => {
+      const response = await request(app).delete("/api/v1/palettes/-1");
+      expect(response.status).toBe(404);
+    });
   });
 });
