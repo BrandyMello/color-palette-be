@@ -142,7 +142,6 @@ To POST a palette:<br>
 Request Body:<br>
 ```
 {
-	id: 10,
   name: "Test Palette",
   projectName: "Test Project",
   colorOne: "#D2D4DC",
@@ -159,15 +158,24 @@ Returns: <br>
 }
 ```
 #### <a name="delete">DELETE Requests</a>
-To DELETE a country: <br>
+To DELETE a project: <br>
 ```
 DELETE /api/v1/projects/:id
 ```
-example: ```DELETE /api/v1/projects/4```
+example: ```DELETE /api/v1/projects/6```
 
 Returns: <br>
 ```
-"This project has been deleted."
+"The project with the id 6 has been deleted."
 ```
+To DELETE a palette: <br>
+```
+DELETE /api/v1/palettes/:id
+```
+example: ```DELETE /api/v1/palettes/12```
 
+Returns: <br>
+```
+"The project with the id 12 has been deleted."
+```
 
