@@ -180,7 +180,7 @@ describe("Server", () => {
       const response = await request(app).delete(`/api/v1/projects/${id}`);
 
       expect(response.status).toBe(200);
-      expect(response.body).toEqual("This project has been deleted.");
+      expect(response.body).toEqual(`The project with the id ${id} has been deleted.`);
     });
 
     it("should return a 400 and an error message", async () => {
