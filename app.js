@@ -87,7 +87,7 @@ app.get("/api/v1/search", (request, response) => {
     });
 });
 
-app.post("/api/v1/projects", (request, response) => {
+ app.post("/api/v1/projects", (request, response) => {
   const project = request.body;
 
   for (let requiredParameter of ["name"]) {
@@ -182,7 +182,7 @@ app.delete("/api/v1/projects/:id", async (request, response) => {
       .where("id", request.params.id)
       .del();
 
-    response.status(200).json("This project has been deleted.");
+    response.status(200).json(`The project with the id ${request.params.id} has been deleted.`);
   } else {
     return response
       .status(400)
