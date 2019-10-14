@@ -51,17 +51,17 @@ app.get("/api/v1/palettes", (request, response) => {
     });
 });
 
-app.get("/api/v1/palettes/:id", (request, response) => {
+app.get("/api/v1/projects/:id/palettes", (request, response) => {
   database("palettes")
-    .where("id", request.params.id)
+    .where("projectId", request.params.id)
     .select()
-    .then(project => {
-      if (project.length) {
-        return response.status(200).json(project);
-      } else {
+    .then(palettes => {
+      if (!palettes.length) {
         return response.status(404).json({
           error: "No palette found."
         });
+      } else {
+        return response.status(200).json(palettes);
       }
     })
     .catch(error => {
