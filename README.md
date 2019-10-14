@@ -1,5 +1,3 @@
-# color-palette-be
-
 
 ## Color Palette API
 
