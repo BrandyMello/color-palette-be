@@ -50,16 +50,20 @@ describe("Server", () => {
     });
   });
 
-  describe("GET /api/v1/palettes/:id", () => {
-    it("should return a 200 status and a single palette if the palette exists", async () => {
-      const expectedPalette = await database("palettes").first();
-      const id = expectedPalette.id;
-      const response = await request(app).get(`/api/v1/palettes/${id}`);
-      const result = response.body[0];
+  describe("GET /api/v1/projects/:id/palettes", () => {
+    it('should return 200 status and all palettes for a project', async () => {
+      const expectedId = await database('projects').first('id').then(object => object.id)
+      const expectedPalettes = await database('palettes').where({ projectId: expectedId }).select()
+      const response = await request(app).get(`/api/v1/projects/${expectedId}/palettes`)
+      const palettes = response.body
 
-      expect(response.status).toBe(200);
-      expect(result[0]).toEqual(expectedPalette[0]);
-    });
+      expect(response.status).toBe(200)
+      expect(palettes[0].name).toEqual(expectedPalettes[0].name)
+  })
+  it('should return 404 status if passed a bad id param', async () => {
+      const response = await request(app).get('/api/v1/projects/2/palettes')
+      expect(response.status).toBe(404)
+  })
   });
 
   describe("GET /api/v1/search", () => {
