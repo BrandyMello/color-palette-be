@@ -87,7 +87,7 @@ app.get("/api/v1/search", (request, response) => {
     });
 });
 
-app.post("/api/v1/projects", (request, response) => {
+ app.post("/api/v1/projects", (request, response) => {
   const project = request.body;
 
   for (let requiredParameter of ["name"]) {
