@@ -187,6 +187,7 @@ Returns: <br>
 http://localhost:3001/api/v1/search?name=Warm%20Colors
 ```
 Returns: <br>
+```
 [
 {
 id: 1,
@@ -195,3 +196,4 @@ created_at: "2019-10-08T23:00:51.511Z",
 updated_at: "2019-10-08T23:00:51.511Z"
 }
 ]
+```
