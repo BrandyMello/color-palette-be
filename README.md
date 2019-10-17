@@ -1,7 +1,8 @@
 
 ## Color Palette API
 
-Sprint Board: https://github.com/BrandyMello/color-palette-be/projects/1
+Sprint Board: https://github.com/BrandyMello/color-palette-be/projects/1<br>
+Heroku Deployed Back End: https://color-palette-be.herokuapp.com
 
 ### Table of Contents
 1. [Schema](#schema)
@@ -16,7 +17,9 @@ Sprint Board: https://github.com/BrandyMello/color-palette-be/projects/1
 
 #### <a name="setup">Setup</a>
 To see the database, go to: 
-https://color-palette-be.herokuapp.com/
+https://color-palette-be.herokuapp.com/<br>
+https://color-palette-be.herokuapp.com/api/v1/projects<br>
+https://color-palette-be.herokuapp.com/api/v1/palettes<br>
  
  ### <a name="endpoints">API Endpoints</a>
  #### <a name="get">GET Requests</a>
