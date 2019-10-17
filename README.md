@@ -182,3 +182,16 @@ Returns: <br>
 "The project with the id 12 has been deleted."
 ```
 
+#### Custom endpoint to a project name: <br>
+```
+http://localhost:3001/api/v1/search?name=Warm%20Colors
+```
+Returns: <br>
+[
+{
+id: 1,
+name: "Warm Colors",
+created_at: "2019-10-08T23:00:51.511Z",
+updated_at: "2019-10-08T23:00:51.511Z"
+}
+]
